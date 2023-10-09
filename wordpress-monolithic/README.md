@@ -2,7 +2,7 @@
 
 ## Architetcure
 
-![Architecture](images/aws-architecture-monolythic-wordpress.drawio.png)
+![Architecture](images/aws-architecture-monolithic-wordpress.drawio.png)
 
 ## Technologies
 
