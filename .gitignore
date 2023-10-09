@@ -1,0 +1,9 @@
+# Terraform
+.terraform*
+terraform.tfstate*
+
+# draw.io
+**/*.drawio.bkp
+
+# macOS
+.DS_Store
