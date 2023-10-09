@@ -1,0 +1,30 @@
+---
+- name: Update all packages
+  ansible.builtin.apt:
+    update_cache: yes
+    force_apt_get: yes
+    cache_valid_time: 3600
+
+- name: "Install NGINX {{ nginx_version }}"
+  ansible.builtin.apt:
+    name: "nginx={{ nginx_version }}"
+    state: present
+
+- name: Ensure NGINX is operational
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true
+
+- name: Get NGINX configuration default link metadata
+  stat:
+    path: /etc/nginx/sites-enabled/default
+  register: nginx_default_config
+  when: deactivate_default_nginx_webpage
+
+- name: Unlink default NGINX configuration
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  when: (nginx_default_config.stat.islnk is defined) and (nginx_default_config.stat.islnk) and (deactivate_default_nginx_webpage)
+  

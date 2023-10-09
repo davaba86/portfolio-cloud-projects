@@ -1,0 +1,43 @@
+- hosts: aws_ec2
+  become: true
+  gather_facts: false
+  vars:
+    nginx_version: 1.18.0-6ubuntu14.4
+    mysql_version: 8.0.34-0ubuntu0.22.04.1
+    php_version: 8.1
+    wp_version: 6.3.1
+
+    deactivate_default_nginx_webpage: true
+
+    wp_db_name: wordpress
+    wp_db_user: wordpressuser
+    wp_db_password: wordpresspassword
+
+    public_domain: mechaconsulting.org
+    wp_html_path: /var/www/{{ public_domain }}
+
+  roles:  
+  - role: nginx
+    tags:
+    - nginx
+    - all
+  
+  - role: mysql
+    tags:
+    - mysql
+    - all
+  
+  - role: php
+    tags:
+    - php
+    - all
+
+  - role: wp-install
+    tags:
+    - wp-install
+    - all
+  
+  - role: wp-config
+    tags:
+    - wp-config
+    - all

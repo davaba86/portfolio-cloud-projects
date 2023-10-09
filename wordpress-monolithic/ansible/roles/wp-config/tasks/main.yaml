@@ -1,0 +1,67 @@
+---
+- name: Copy TLS certificate files
+  ansible.builtin.copy:
+    src: "../{{ item }}"
+    dest: /etc/ssl/
+  loop:
+  - "{{ public_domain }}.pem"
+  - "{{ public_domain }}.key"
+
+- name: Configure WordPress for NGINX
+  copy:
+    dest: "/etc/nginx/sites-available/{{ public_domain }}"
+    content: |
+      server {
+        # listen 80;
+        listen 443;
+
+        ssl on;
+        ssl_certificate /etc/ssl/{{ public_domain }}.pem;
+        ssl_certificate_key /etc/ssl/{{ public_domain }}.key;
+
+        server_name {{ public_domain }} www.{{ public_domain }};
+        root /var/www/{{ public_domain }};
+
+        index index.php index.html;
+
+        access_log /var/log/nginx/{{ public_domain }}.access.log;
+        error_log /var/log/nginx/{{ public_domain }}.error.log;
+
+        location / {
+          try_files $uri $uri/ =404;
+        }
+
+        location ~ \.php$ {
+          include snippets/fastcgi-php.conf;
+          fastcgi_pass unix:/run/php/php8.1-fpm.sock;
+        }
+        
+        location ~ /\.ht {
+          deny all;
+        }
+
+        location = /favicon.ico {
+          log_not_found off;
+          access_log off;
+        }
+
+        location = /robots.txt {
+          allow all;
+          log_not_found off;
+          access_log off;
+        }
+    
+        location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+          expires max;
+          log_not_found off;
+        }
+      }
+  notify:
+  - Reload NGINX daemon
+  - Restart NGINX
+
+- name: Activate NGINX WordPress config
+  ansible.builtin.file:
+    src: "/etc/nginx/sites-available/{{ public_domain }}"
+    dest: "/etc/nginx/sites-enabled/{{ public_domain }}"
+    state: link

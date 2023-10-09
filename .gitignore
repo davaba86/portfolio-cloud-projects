@@ -4,6 +4,7 @@ terraform.tfstate*
 
 # draw.io
 **/*.drawio.bkp
+**/.drawio.dtmp
 
 # macOS
 .DS_Store
