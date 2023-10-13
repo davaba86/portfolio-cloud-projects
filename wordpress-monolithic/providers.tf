@@ -28,14 +28,8 @@ provider "aws" {
   region = var.region_code_execution
 }
 
-provider "http" {
+provider "http" {}
 
-}
+provider "local" {}
 
-provider "local" {
-
-}
-
-provider "tls" {
-
-}
+provider "tls" {}

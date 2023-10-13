@@ -1,4 +1,4 @@
-project_name = "ELB with SSL"
+project_name = "WordPress Monolithic"
 owner        = "David Abarca"
 
 env_name_long  = "Development"

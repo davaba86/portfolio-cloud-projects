@@ -156,3 +156,9 @@ terraform apply --auto-approve
 | TF           | Terraform                    |
 | UFW          | Uncomplicated Firewall       |
 | VPC          | Virtual Private Cloud        |
+
+## WIP
+
+- Create bastion host
+- Place EC2 in private subnets, not public
+- SSH into web via bastion

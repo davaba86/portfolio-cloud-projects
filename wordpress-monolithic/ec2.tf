@@ -29,6 +29,33 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"]
 }
 
+module "sg_web" {
+  source = "terraform-aws-modules/security-group/aws"
+
+  name        = "${var.env_name_short}-sg-web"
+  description = "Allow filtered inbound traffic to web"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress_with_cidr_blocks = [
+    for item in var.sg_web_ingress : {
+      from_port   = item.dst_port
+      to_port     = item.dst_port
+      protocol    = item.protocol
+      description = item.description
+      cidr_blocks = local.my_pub_addr_cleansed
+    }
+  ]
+
+  egress_with_cidr_blocks = [
+    {
+      from_port   = 0
+      to_port     = 0
+      protocol    = -1
+      cidr_blocks = "0.0.0.0/0"
+    }
+  ]
+}
+
 resource "aws_instance" "web" {
   count = 1
 

@@ -22,14 +22,14 @@
     - nginx
     - all
   
-  - role: mysql
-    tags:
-    - mysql
-    - all
-  
   - role: php
     tags:
     - php
+    - all
+  
+  - role: mysql
+    tags:
+    - mysql
     - all
 
   - role: wp-install

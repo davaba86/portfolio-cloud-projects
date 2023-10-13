@@ -8,6 +8,10 @@ module "vpc" {
   public_subnets  = var.vpc_subnet_public_range
   private_subnets = var.vpc_subnet_private_range
 
+  # # If on private subnet, ensure compute node can access Internet
+  # enable_nat_gateway = true
+
+  # If on public subnet, assign public IPv4 to compute node
   map_public_ip_on_launch = true
 
   enable_dns_support   = true
