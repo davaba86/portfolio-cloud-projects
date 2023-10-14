@@ -2,7 +2,7 @@
 
 ## Architetcure Overview
 
-![Architecture](images/aws-architecture-monolithic-wordpress.drawio.png)
+![Architecture](images/monolithic-wordpress.drawio.png)
 
 As this is the first project for my portfolio I wanted to start simple and form there building on with my experience over the years in IT.
 
@@ -25,9 +25,9 @@ Finally, I decided to use NGINX as the web server as a personal preference but a
 
 - Terraform
   - AWS SG
-    - [Terraform Module: Security Group Module](https://registry.terraform.io/modules/terraform-aws-modules/security-group/aws/latest)
+    - [Terraform Module: Security Group](https://registry.terraform.io/modules/terraform-aws-modules/security-group/aws/latest)
   - AWS VPC
-    - [Terraform Module: VPC Module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest)
+    - [Terraform Module: VPC](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest)
   - AWS EC2
     - Linux Ubuntu
 - Ansible

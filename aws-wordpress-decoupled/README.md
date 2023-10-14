@@ -14,11 +14,17 @@
 
 - Terraform
   - AWS SG
-    - [Terraform Module: Security Group Module](https://registry.terraform.io/modules/terraform-aws-modules/security-group/aws/latest)
+    - [Terraform Module: Security Group](https://registry.terraform.io/modules/terraform-aws-modules/security-group/aws/latest)
   - AWS VPC
-    - [Terraform Module: VPC Module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest)
+    - [Terraform Module: VPC](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest)
   - AWS EC2
     - Linux Ubuntu
+  - AWS ACM
+    - [Terraform Module: AWS Certificate Manager (ACM)](https://registry.terraform.io/modules/terraform-aws-modules/acm/aws/latest)
+  - AWS Route53
+    - [Terraform Module: AWS Route53](https://registry.terraform.io/modules/terraform-aws-modules/route53/aws/latest)
+  - AWS ALB
+    - [Terraform Module: AWS ALB](https://registry.terraform.io/modules/terraform-aws-modules/alb/aws/latest)
 
 ## Deployment
 
@@ -74,7 +80,7 @@ Once done, verify the connectinity by visiting the domain e.g. https://www.yourd
 
 To cleanup the environment destroy all the resources with TF.
 
-```she
+```shell
 terraform destroy --auto-approve
 ```
 
@@ -139,7 +145,6 @@ All tiers have SGs configured with the following:
 
 | Abbreviation | Expanded                     |
 | ------------ | ---------------------------- |
-| AMI          | Amazon Machine Images        |
 | EC2          | Amazon Elastic Compute Cloud |
 | SG           | Security Group               |
 | TF           | Terraform                    |

@@ -15,10 +15,10 @@ Throughout all my projects I try to aim for a clear and structured approach sinc
 ## Projects List (WIP)
 
 - AWS WordPress Monolithic
-- AWS WordPress Decoupled (WIP)
+- AWS WordPress Decoupled
+- AWS CF with Static Website
 - AWS Serverless XXX (WIP)
 - AWS WordPress EKS (WIP)
-- AWS CF with Static Website (WIP)
 - AWS EventDriven Architecture (WIP)
 
 Over time this section will be updated regularly as projects change throughout my experience and market demands.
