@@ -1,8 +1,18 @@
-# WordPress Monolithic
+# AWS WordPress Monolithic
 
-## Architetcure
+## Architetcure Overview
 
 ![Architecture](images/aws-architecture-monolithic-wordpress.drawio.png)
+
+As this is the first project for my portfolio I wanted to start simple and form there building on with my experience over the years in IT.
+
+Since WordPress is widely used I wanted to start there, but despite being a simple monolithic architecture the are several services and topics used.
+
+The EC2 instance used Ubuntu as the AMI and to handle configuration management I use Ansible over shell scripts since I find the code more structured and readable. It does however come at a cost of having more files to overview than a simple script file so bear in mind there's no one size fits all.
+
+While it's possible to have the host configuration done through TF `user_data` I wanted to avoid it in this project to later improve the subsequent projects.
+
+Finally, I decided to use NGINX as the web server as a personal preference but an Apache web server could also be used.
 
 ## Technologies
 
@@ -26,19 +36,7 @@
   - MySQL
   - WordPress
 
-## Development Process
-
-As this is the first project for my portfolio I wanted to start simple and form there building on with my experience over the years in IT.
-
-Since WordPress is widely used I wanted to start there, but despite being a simple monolithic architecture the are several services and topics used.
-
-The EC2 instance used Ubuntu as the AMI and to handle configuration management I use Ansible over shell scripts since I find the code more structured and readable. It does however come at a cost of having more files to overview than a simple script file so bear in mind there's no one size fits all.
-
-While it's possible to have the host configuration done through TF `user_data` I wanted to avoid it in this project to later improve the subsequent projects.
-
-Finally, I decided to use NGINX as the web server as a personal preference but an Apache web server could also be used.
-
-## Deployment Process
+## Deployment
 
 ### Create
 
@@ -69,7 +67,7 @@ Upon cleaning up the environment you'll see this warning, but just ignore it.
 Warning: EC2 Default Network ACL (acl-0c8b3acca7cbbea2a) not deleted, removing from state
 ```
 
-## Additional Topics
+## Project Details
 
 ### Tree Structure
 
@@ -157,8 +155,8 @@ terraform apply --auto-approve
 | UFW          | Uncomplicated Firewall       |
 | VPC          | Virtual Private Cloud        |
 
-## WIP
+## Future Work
 
-- Create bastion host
-- Place EC2 in private subnets, not public
-- SSH into web via bastion
+- [ ] Create bastion host
+- [ ] Place EC2 in private subnets, not public
+- [ ] SSH into web via bastion
