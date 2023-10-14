@@ -16,7 +16,7 @@
 
 ## 1. Architecture Overview
 
-![cf-static-website.drawio](file:///Users/davaba/git-repos/portfolio-cloud-projects/aws-cf-with-s3-static-website/images/cf-static-website.drawio.png)
+![cf-static-website.drawio](images/cf-static-website.drawio.png)
 
 This project builds a CDN fronting a static website hosted in an S3 bucket while using DNS and HTTPS with a custom domain.
 

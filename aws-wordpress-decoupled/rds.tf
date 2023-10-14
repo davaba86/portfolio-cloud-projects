@@ -30,6 +30,15 @@ module "sg_db" {
   ]
 }
 
+resource "random_pet" "rds_admin_user" {
+  length = 1
+}
+
+resource "random_password" "rds_admin_password" {
+  length  = 16
+  special = false
+}
+
 resource "aws_db_instance" "wordpress" {
   identifier            = var.rds_wp_db_name
   engine                = "mysql"
@@ -38,8 +47,8 @@ resource "aws_db_instance" "wordpress" {
   allocated_storage     = 20
   max_allocated_storage = 1000
 
-  username = var.rds_admin_user
-  password = var.rds_admin_password
+  username = random_pet.rds_admin_user.id
+  password = random_password.rds_admin_password.result
 
   db_name = var.rds_wp_db_name
 

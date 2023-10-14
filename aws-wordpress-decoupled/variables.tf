@@ -68,27 +68,7 @@ variable "sg_web_ingress" {
   type        = map(any)
 }
 
-variable "rds_admin_user" {
-  description = "Admin user of the RDS instance"
-  type        = string
-}
-
-variable "rds_admin_password" {
-  description = "Admin user of the RDS instance"
-  type        = string
-}
-
 variable "rds_wp_db_name" {
   description = "DB name for WP"
-  type        = string
-}
-
-variable "rds_wp_db_user" {
-  description = "DB user for WP"
-  type        = string
-}
-
-variable "rds_wp_db_password" {
-  description = "DB user password for WP"
   type        = string
 }

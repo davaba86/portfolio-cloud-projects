@@ -17,7 +17,7 @@
 
 ## 1. Architecture Overview
 
-![wp-decoupled.drawio](file:///Users/davaba/git-repos/portfolio-cloud-projects/aws-wordpress-decoupled/images/wp-decoupled.drawio.png)
+![wp-decoupled.drawio](images/wp-decoupled.drawio.png)
 
 ## 2. Technologies
 
@@ -45,20 +45,11 @@
 
 ### 3.1. Prerequisites
 
-Before starting out be aware of that you need to change the following variables.
+Before starting out be aware of that you need to change the following.
 
 ```shell
 public_domain = "mechaconsulting.org"
-
-rds_admin_user     = "admin"
-rds_admin_password = "b74v54i8n54456b4gf"
-
-rds_wp_db_name     = "wordpress"
-rds_wp_db_user     = "wordpress"
-rds_wp_db_password = "wordpress-pass"
 ```
-
-Over time hard-coded credentials will be removed and more effective methods will be used.
 
 ### 3.2. Create
 
@@ -72,19 +63,30 @@ terraform apply --auto-approve
 Once all resource are operational, open a terminal into one of the EC2 hosts, see the section Security: SSM for more information of this is new to you.
 
 ```shel
-aws ssm start-session --target i-02b822e093e44a336
+aws ssm start-session --target INSTANCE_ID
 ```
 
 Install mysql client and configure the RDS, but note the DB is automatically created by the TF code.
+
+To get your values look at th TF output and for the sensitive data extract it with `terraform output -json`.
 
 ```shell
 # Install MySQL Client
 sudo apt install -y mysql-client
 
-# Configure MySQL server via client
-mysql --host wordpress.czkgfzrvx2zn.eu-west-1.rds.amazonaws.com --user=admin --password=b74v54i8n54456b4gf wordpress << EOF
-CREATE USER 'wordpress' IDENTIFIED BY 'wordpress-pass';
-GRANT ALL PRIVILEGES ON wordpress.* TO wordpress;
+# Configure MySQL server via client (replace with own values)
+export RDS_ENDPOINT=X
+
+export RDS_ADMIN=X
+export RDS_ADMIN_PASS=X
+
+export WORDPRESS_DB=X
+export WORDPRESS_USER=X
+export WORDPRESS_USER_PASS=X
+
+mysql --host $RDS_ENDPOINT --user=$RDS_ADMIN --password=$RDS_ADMIN_PASS $WORDPRESS_DB << EOF
+CREATE USER '${WORDPRESS_USER}' IDENTIFIED BY '${WORDPRESS_USER_PASS}';
+GRANT ALL PRIVILEGES ON ${WORDPRESS_DB}.* TO '${WORDPRESS_USER}';
 FLUSH PRIVILEGES;
 EOF
 ```
@@ -168,5 +170,5 @@ All tiers have SGs configured with the following:
 
 ## 6. Future Work
 
-- [ ] Remove usernames and passwords of DB from code, `terraform.tfvars`
 - [ ] Automatically initialise RDS via Laumda function inside VPC
+- [ ] Create randomly generated passwords with symbols and exclude \

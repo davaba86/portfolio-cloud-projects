@@ -43,9 +43,4 @@ sg_web_ingress = {
   }
 }
 
-rds_admin_user     = "admin"
-rds_admin_password = "b74v54i8n54456b4gf"
-
-rds_wp_db_name     = "wordpress"
-rds_wp_db_user     = "wordpress"
-rds_wp_db_password = "wordpress-pass"
+rds_wp_db_name = "wordpress"

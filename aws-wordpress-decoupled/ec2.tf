@@ -1,3 +1,12 @@
+resource "random_pet" "rds_wp_db_user" {
+  length = 1
+}
+
+resource "random_password" "rds_wp_db_password" {
+  length  = 16
+  special = false
+}
+
 data "template_file" "wordpress_script" {
   template = file("install_wordpress.tpl")
 
@@ -5,8 +14,8 @@ data "template_file" "wordpress_script" {
     wp_domain   = var.public_domain
     db_host     = aws_db_instance.wordpress.address
     db_name     = var.rds_wp_db_name
-    db_user     = var.rds_wp_db_user
-    db_password = var.rds_wp_db_password
+    db_user     = random_pet.rds_wp_db_user.id
+    db_password = random_password.rds_wp_db_password.result
   }
 }
 
