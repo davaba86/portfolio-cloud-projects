@@ -12,25 +12,34 @@ But if you're curious about them I've added a `#Abbreviations Used in Document` 
 
 Throughout all my projects I try to aim for a clear and structured approach since when several technologies are used things can quickly become complicated.
 
-## Projects List
+## Projects List (WIP)
 
-- WordPress Monolithic
-- WordPress Decoupled (WIP)
-- WordPress EKS (WIP)
-- CF with Static Website (WIP)
-- EventDriven Architecture (WIP)
+- AWS WordPress Monolithic
+- AWS WordPress Decoupled (WIP)
+- AWS Serverless XXX (WIP)
+- AWS WordPress EKS (WIP)
+- AWS CF with Static Website (WIP)
+- AWS EventDriven Architecture (WIP)
 
 Over time this section will be updated regularly as projects change throughout my experience and market demands.
 
-## Additional Topics
+## Configuration Management: Ansible
 
-### IaC: Terraform
+When it comes to CM there are several options out there such as Puppet, Chef, and Ansible, and while it's possible to create shell scripts I do believe they can quickly become difficult to read and manage.
+
+Ansible is my choice due to the wide support from the open-source community, however further on in my project, you'll see me using more declarative methods.
+
+Ultimately one of the weaknesses of Ansible is that it's an imperative language and that it does require an SSH connection.
+
+### Infrastructure as Code: Terraform
 
 For several years TF has been the de facto standard for deploying cloud infrastructure alongside other tools like CloudFormation, Pulumi, etc.
 
-I've selected TF due to its popularity and since it has wide support for providers outside of the normal cloud sphere. I for eg. use it with providers such as GitHub, asymmetric key generation, ACME certificates, etc.
+I've selected TF due to its popularity and since it has wide support for providers outside of the normal cloud sphere.
 
-#### Custom Modules vs. Public Modules
+I for eg. use it with providers such as GitHub for repos, asymmetric key generation, ACME certificates, etc.
+
+### Custom Modules vs. Public Modules
 
 While I understand we often create our modules to suit our needs, there are plenty of them that in most cases could be used instead.
 
@@ -38,23 +47,7 @@ One of them is the VPC or even SG which covers a lot of the use cases and receiv
 
 > Don't reinvent the wheel
 
-### CM: Ansible
-
-When it comes to CM there are several options out there such as Puppet, Chef, and Ansible, and while it's possible to create shell scripts I do believe they can quickly become difficult to read and manage.
-
-Ansible is my choice due to the wide support from the open-source community, however further on in my project, you'll see me using more declarative methods.
-
-Ultimately one of the weaknesses of Ansible is that it's an imperative language.
-
-### Network: AWS VPC
-
-![Custom VPC Architecture Overview](images/aws-architecture-custom-vpc.drawio.png)
-
-When it comes to network resources in AWS we have two options, either we deploy something that takes care of the network for us like Elastic Beanstalk or we do it ourselves.
-
-While I do understand the need to quickly deploy resources, particularly if your knowledge is limited. This can over time become a limitation as the environments grow and need to be decoupled into smaller pieces.
-
-And often we need to have full control over our network which is why it's more beneficial over time to not use the AWS default resources created with each account.
+## Fundamental Services
 
 ### DNS: AWS Route53
 
@@ -68,25 +61,19 @@ Another topic that is a de facto standard today is securing our communication in
 
 There's no reason not to use certificates in everything we deploy, and with TF we automate much of the work.
 
-### Filter Traffic from the Internet
+## Cloud Provider: AWS
 
-Quite often when we are learning we allow traffic from any public IP address just to get started with our projects and studies. However, this exposes us to unnecessary risk when combined with poor knowledge of security around passwords, API keys, and Linux.
+### Custom VPC
 
-I've been here countless times and I used to wonder, did I secure my environment enough? So to bring peace of mind, only allow access from your public IP address that you're working from.
+![Custom VPC Architecture Overview](images/aws-architecture-custom-vpc.drawio.png)
 
-With TF you can even automate much of the work.
+When it comes to network resources in AWS we have two options, either we deploy something that takes care of the network for us like Elastic Beanstalk or we do it ourselves.
 
-```terraform
-data "http" "my_pub_addr" {
-  url = "https://ipv4.icanhazip.com"
-}
+While I do understand the need to quickly deploy resources, particularly if your knowledge is limited. This can over time become a limitation as the environments grow and need to be decoupled into smaller pieces.
 
-locals {
-  my_pub_addr_cleansed = "${chomp(data.http.my_pub_addr.response_body)}/32"
-}
-```
+And often we need to have full control over our network which is why it's more beneficial over time to not use the AWS default resources created with each account.
 
-### AWS Default Tags
+### Default Tags
 
 Let's keep our resources organized and structured from the beginning so let's make use of AWS tags automatically.
 
@@ -105,5 +92,25 @@ provider "aws" {
       TerraformCreated = true
     }
   }
+}
+```
+
+## Security
+
+### Filter Traffic from the Internet
+
+Quite often when we are learning we allow traffic from any public IP address just to get started with our projects and studies. However, this exposes us to unnecessary risk when combined with poor knowledge of security around passwords, API keys, and Linux.
+
+I've been here countless times and I used to wonder, did I secure my environment enough? So to bring peace of mind, only allow access from your public IP address that you're working from.
+
+With TF you can even automate much of the work.
+
+```terraform
+data "http" "my_pub_addr" {
+  url = "https://ipv4.icanhazip.com"
+}
+
+locals {
+  my_pub_addr_cleansed = "${chomp(data.http.my_pub_addr.response_body)}/32"
 }
 ```

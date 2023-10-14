@@ -159,4 +159,4 @@ terraform apply --auto-approve
 
 - [ ] Create bastion host
 - [ ] Place EC2 in private subnets, not public
-- [ ] SSH into web via bastion
+- [ ] Enforce SSH into web via bastion only

@@ -8,3 +8,6 @@ terraform.tfstate*
 
 # macOS
 .DS_Store
+
+# Backup Files
+**/*.backup
