@@ -1,16 +1,31 @@
 # WordPress Decoupled
 
-## Architecture Overview
+- [1. Architecture Overview](#1-architecture-overview)
+- [2. Technologies](#2-technologies)
+  - [2.1. Reqired](#21-reqired)
+  - [2.2. Used](#22-used)
+- [3. Deployment](#3-deployment)
+  - [3.1. Prerequisites](#31-prerequisites)
+  - [3.2. Create](#32-create)
+  - [3.3. Cleanup](#33-cleanup)
+- [4. Project Details](#4-project-details)
+  - [4.1. Tree Structure](#41-tree-structure)
+  - [4.2. Security: SSM](#42-security-ssm)
+  - [4.3. Security: SG](#43-security-sg)
+- [5. Abbreviations Used in Document](#5-abbreviations-used-in-document)
+- [6. Future Work](#6-future-work)
+
+## 1. Architecture Overview
 
 ![wp-decoupled.drawio](file:///Users/davaba/git-repos/portfolio-cloud-projects/aws-wordpress-decoupled/images/wp-decoupled.drawio.png)
 
-## Technologies
+## 2. Technologies
 
-### Reqired
+### 2.1. Reqired
 
 - Terraform
 
-### Used
+### 2.2. Used
 
 - Terraform
   - AWS SG
@@ -26,9 +41,9 @@
   - AWS ALB
     - [Terraform Module: AWS ALB](https://registry.terraform.io/modules/terraform-aws-modules/alb/aws/latest)
 
-## Deployment
+## 3. Deployment
 
-### Prerequisites
+### 3.1. Prerequisites
 
 Before starting out be aware of that you need to change the following variables.
 
@@ -45,7 +60,7 @@ rds_wp_db_password = "wordpress-pass"
 
 Over time hard-coded credentials will be removed and more effective methods will be used.
 
-### Create
+### 3.2. Create
 
 To create the environment run the TF code, and wait a few minutes for the startup.
 
@@ -76,7 +91,7 @@ EOF
 
 Once done, verify the connectinity by visiting the domain e.g. https://www.yourdomain.org and if you see the WordPress configuration you've done it!
 
-### Cleanup
+### 3.3. Cleanup
 
 To cleanup the environment destroy all the resources with TF.
 
@@ -90,15 +105,15 @@ Upon cleaning up the environment you'll see this warning, but just ignore it.
 Warning: EC2 Default Network ACL (acl-0c8b3acca7cbbea2a) not deleted, removing from state
 ```
 
-## Project Details
+## 4. Project Details
 
-### Tree Structure
+### 4.1. Tree Structure
 
-``````shell
+```shell
 tree -I "terraform.tfstate*"
-``````
+```
 
-``````shell
+```shell
 ├── README.md
 ├── acm.tf
 ├── alb.tf
@@ -115,9 +130,9 @@ tree -I "terraform.tfstate*"
 ├── terraform.tfvars
 ├── variables.tf
 └── vpc.tf
-``````
+```
 
-### Security: SSM
+### 4.2. Security: SSM
 
 In this project we skipped the traditional SSH keys which are often difficult to ovesee and particularly in smaller organisations with limited resources.
 
@@ -133,7 +148,7 @@ aws ssm start-session --target i-02b822e093e44a336
 
 Also to aid us, we should set the default shell to BASH, which can be seen in the file `ssm.tf`.
 
-### Security: SG
+### 4.3. Security: SG
 
 All tiers have SGs configured with the following:
 
@@ -141,7 +156,7 @@ All tiers have SGs configured with the following:
 - Web tier only allows traffic from the ALB
 - DB tier only allows traffic from the web tier
 
-## Abbreviations Used in Document
+## 5. Abbreviations Used in Document
 
 | Abbreviation | Expanded                     |
 | ------------ | ---------------------------- |
@@ -151,7 +166,7 @@ All tiers have SGs configured with the following:
 | UFW          | Uncomplicated Firewall       |
 | VPC          | Virtual Private Cloud        |
 
-## Future Work
+## 6. Future Work
 
 - [ ] Remove usernames and passwords of DB from code, `terraform.tfvars`
 - [ ] Automatically initialise RDS via Laumda function inside VPC

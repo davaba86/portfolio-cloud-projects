@@ -1,6 +1,21 @@
 # AWS WordPress Monolithic
 
-## Architetcure Overview
+- [1. Architetcure Overview](#1-architetcure-overview)
+- [2. Technologies](#2-technologies)
+  - [2.1. Required](#21-required)
+  - [2.2. Used](#22-used)
+- [3. Deployment](#3-deployment)
+  - [3.1. Create](#31-create)
+  - [3.2. Cleanup](#32-cleanup)
+- [4. Project Details](#4-project-details)
+  - [4.1. Tree Structure](#41-tree-structure)
+  - [4.2. Security](#42-security)
+  - [4.3. ACME Certificate](#43-acme-certificate)
+- [5. Known Issues](#5-known-issues)
+- [6. Abbreviations Used in Document](#6-abbreviations-used-in-document)
+- [7. Future Work](#7-future-work)
+
+## 1. Architetcure Overview
 
 ![Architecture](images/monolithic-wordpress.drawio.png)
 
@@ -14,14 +29,14 @@ While it's possible to have the host configuration done through TF `user_data` I
 
 Finally, I decided to use NGINX as the web server as a personal preference but an Apache web server could also be used.
 
-## Technologies
+## 2. Technologies
 
-### Required
+### 2.1. Required
 
 - Terraform
 - Ansible
 
-### Used
+### 2.2. Used
 
 - Terraform
   - AWS SG
@@ -36,9 +51,9 @@ Finally, I decided to use NGINX as the web server as a personal preference but a
   - MySQL
   - WordPress
 
-## Deployment
+## 3. Deployment
 
-### Create
+### 3.1. Create
 
 To start the environment first run the TF code, followed by the Ansible playbook.
 
@@ -53,7 +68,7 @@ Once the TF code is executed you'll have the Ansible files automatically created
 ansible-playbook ansible/main.yaml
 ```
 
-### Cleanup
+### 3.2. Cleanup
 
 To cleanup the environment destroy all the resources with TF.
 
@@ -67,9 +82,9 @@ Upon cleaning up the environment you'll see this warning, but just ignore it.
 Warning: EC2 Default Network ACL (acl-0c8b3acca7cbbea2a) not deleted, removing from state
 ```
 
-## Project Details
+## 4. Project Details
 
-### Tree Structure
+### 4.1. Tree Structure
 
 ```shell
 tree -I "terraform.tfstate*"
@@ -116,18 +131,18 @@ tree -I "terraform.tfstate*"
 └── vpc.tf
 ```
 
-### Security
+### 4.2. Security
 
 - The Ubuntu UFW is not used as traffic filtering is taken care of with AWS SG.
 - In this project, I use SSH key pairs (ED25519) to gain access to the EC2 instance, but later on, I'll avoid this method as there are better ways of handling access to compute nodes.
 
-### ACME Certificate
+### 4.3. ACME Certificate
 
 If you're doing development and want to deploy an ACME certificate with your domain, use the staging URL and only when ready switch to production.
 
 In the file `terraform.tfvars` you can use the variable `disable_acme_tls_prod=true` to switch.
 
-## Known Issues
+## 5. Known Issues
 
 With the ACME certificate, if you switch from staging to production URL or vise-versa nothing will happen so you'll need to destroy all the resources.
 
@@ -144,7 +159,7 @@ terraform destroy --auto-approve
 terraform apply --auto-approve
 ```
 
-## Abbreviations Used in Document
+## 6. Abbreviations Used in Document
 
 | Abbreviation | Expanded                     |
 | ------------ | ---------------------------- |
@@ -155,7 +170,7 @@ terraform apply --auto-approve
 | UFW          | Uncomplicated Firewall       |
 | VPC          | Virtual Private Cloud        |
 
-## Future Work
+## 7. Future Work
 
 - [ ] Create bastion host
 - [ ] Place EC2 in private subnets, not public
