@@ -29,6 +29,7 @@ Throughout all my projects I try to aim for a clear and structured approach sinc
 
 ## 3. Projects List (WIP)
 
+- AWS Multi-Account Setup
 - AWS WordPress Monolithic
 - AWS WordPress Decoupled
 - AWS CF with Static Website

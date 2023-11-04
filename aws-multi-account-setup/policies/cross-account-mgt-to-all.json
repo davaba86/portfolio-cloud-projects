@@ -1,0 +1,16 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "CrossAccountFromMgtToAll",
+            "Effect": "Allow",
+            "Action": "STS:AssumeRole",
+            "Resource": [
+                "arn:aws:iam::111111111111:role/cross-account-from-mgt",
+                "arn:aws:iam::222222222222:role/cross-account-from-mgt",
+                "arn:aws:iam::333333333333:role/cross-account-from-mgt",
+                "arn:aws:iam::444444444444:role/cross-account-from-mgt"
+            ]
+        }
+    ]
+}

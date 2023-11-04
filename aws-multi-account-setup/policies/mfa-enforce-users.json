@@ -1,0 +1,56 @@
+{
+    "Statement": [
+        {
+            "Action": ["iam:ListUsers", "iam:ListVirtualMFADevices"],
+            "Effect": "Allow",
+            "Resource": "*",
+            "Sid": "AllowListActions"
+        },
+        {
+            "Action": ["iam:CreateVirtualMFADevice"],
+            "Effect": "Allow",
+            "Resource": "arn:aws:iam::*:mfa/*",
+            "Sid": "AllowUserToCreateVirtualMFADevice"
+        },
+        {
+            "Action": [
+                "iam:EnableMFADevice",
+                "iam:ListMFADevices",
+                "iam:ResyncMFADevice"
+            ],
+            "Effect": "Allow",
+            "Resource": "arn:aws:iam::*:user/${aws:username}",
+            "Sid": "AllowUserToManageTheirOwnMFA"
+        },
+        {
+            "Action": ["iam:DeactivateMFADevice"],
+            "Condition": {
+                "Bool": {
+                    "aws:MultiFactorAuthPresent": "true"
+                }
+            },
+            "Effect": "Allow",
+            "Resource": ["arn:aws:iam::*:user/${aws:username}"],
+            "Sid": "AllowUserToDeactivateTheirOwnMFAOnlyWhenUsingMFA"
+        },
+        {
+            "Condition": {
+                "BoolIfExists": {
+                    "aws:MultiFactorAuthPresent": "false"
+                }
+            },
+            "Effect": "Deny",
+            "NotAction": [
+                "iam:CreateVirtualMFADevice",
+                "iam:EnableMFADevice",
+                "iam:ListMFADevices",
+                "iam:ListUsers",
+                "iam:ListVirtualMFADevices",
+                "iam:ResyncMFADevice"
+            ],
+            "Resource": "*",
+            "Sid": "BlockMostAccessUnlessSignedInWithMFA"
+        }
+    ],
+    "Version": "2012-10-17"
+}
